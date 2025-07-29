@@ -42,5 +42,3 @@
 - [GitHub Trending](https://github.com/trending) — Découvrir les projets populaires.
 
 ---
-
-_Si tu souhaites une liste personnalisée ou un parcours précis, n’hésite pas à demander._
