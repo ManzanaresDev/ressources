@@ -1,8 +1,9 @@
-# 🧱 Manuel : Serveur Backend MERN avec DAO, Service et Contrôleur
+
+# 🧱 Manuel Backend MERN (ES6) – Architecture DAO / Service / Controller
 
 ## 🎯 Objectif
 
-Mettre en place un backend Node.js/Express/MongoDB en architecture MVC enrichie :
+Mettre en place un backend Node.js / Express / MongoDB avec architecture propre :
 
 ```
 Client → Routes → Controller → Service → DAO → Mongoose
@@ -12,27 +13,21 @@ Client → Routes → Controller → Service → DAO → Mongoose
 
 ## 📁 Structure du projet
 
-```bash
+```
 backend/
 │
 ├── config/
 │   └── db.js
-│
 ├── controllers/
 │   └── task.controller.js
-│
 ├── services/
 │   └── task.service.js
-│
 ├── dao/
 │   └── task.dao.js
-│
 ├── models/
 │   └── task.model.js
-│
 ├── routes/
 │   └── task.routes.js
-│
 ├── app.js
 └── server.js
 ```
@@ -47,7 +42,13 @@ npm init -y
 npm install express mongoose dotenv
 ```
 
-**.env**
+Dans `package.json` :
+
+```json
+"type": "module"
+```
+
+Fichier `.env` :
 
 ```env
 PORT=5000
@@ -56,48 +57,43 @@ MONGO_URI=mongodb://localhost:27017/mern_example
 
 ---
 
-## 2. ⚙️ Connexion MongoDB (config/db.js)
+## 2. ⚙️ Connexion MongoDB (`config/db.js`)
 
 ```js
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected");
+    console.log('✅ MongoDB connecté');
   } catch (err) {
-    console.error("DB Connection Failed:", err.message);
+    console.error('❌ Échec connexion DB :', err.message);
     process.exit(1);
   }
 };
-
-module.exports = connectDB;
 ```
 
 ---
 
-## 3. 🧬 Modèle Mongoose (models/task.model.js)
+## 3. 🧬 Modèle Mongoose (`models/task.model.js`)
 
 ```js
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const taskSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true },
-    completed: { type: Boolean, default: false },
-  },
-  { timestamps: true }
-);
+const taskSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  completed: { type: Boolean, default: false }
+}, { timestamps: true });
 
-module.exports = mongoose.model("Task", taskSchema);
+export const Task = mongoose.model('Task', taskSchema);
 ```
 
 ---
 
-## 4. 📦 DAO : Classe d'accès aux données (dao/task.dao.js)
+## 4. 📦 DAO – Accès aux données (`dao/task.dao.js`)
 
 ```js
-const Task = require("../models/task.model");
+import { Task } from '../models/task.model.js';
 
 class TaskDAO {
   async getAll() {
@@ -121,15 +117,15 @@ class TaskDAO {
   }
 }
 
-module.exports = new TaskDAO();
+export default new TaskDAO();
 ```
 
 ---
 
-## 5. 🧠 Service (services/task.service.js)
+## 5. 🧠 Service Métier (`services/task.service.js`)
 
 ```js
-const taskDAO = require("../dao/task.dao");
+import taskDAO from '../dao/task.dao.js';
 
 class TaskService {
   async getAllTasks() {
@@ -149,101 +145,105 @@ class TaskService {
   }
 }
 
-module.exports = new TaskService();
+export default new TaskService();
 ```
 
 ---
 
-## 6. 🎮 Contrôleur (controllers/task.controller.js)
+## 6. 🎮 Contrôleur (`controllers/task.controller.js`)
 
 ```js
-const taskService = require("../services/task.service");
+import taskService from '../services/task.service.js';
 
-exports.getAll = async (req, res) => {
+export const getAll = async (req, res) => {
   const tasks = await taskService.getAllTasks();
   res.json(tasks);
 };
 
-exports.create = async (req, res) => {
+export const create = async (req, res) => {
   const task = await taskService.createTask(req.body);
   res.status(201).json(task);
 };
 
-exports.delete = async (req, res) => {
-  await taskService.deleteTask(req.params.id);
-  res.sendStatus(204);
-};
-
-exports.update = async (req, res) => {
+export const update = async (req, res) => {
   const updated = await taskService.updateTask(req.params.id, req.body);
   res.json(updated);
+};
+
+export const remove = async (req, res) => {
+  await taskService.deleteTask(req.params.id);
+  res.sendStatus(204);
 };
 ```
 
 ---
 
-## 7. 🌐 Routes (routes/task.routes.js)
+## 7. 🌐 Routes (`routes/task.routes.js`)
 
 ```js
-const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/task.controller");
+import { Router } from 'express';
+import { getAll, create, update, remove } from '../controllers/task.controller.js';
 
-router.get("/", controller.getAll);
-router.post("/", controller.create);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
+const router = Router();
 
-module.exports = router;
+router.get('/', getAll);
+router.post('/', create);
+router.put('/:id', update);
+router.delete('/:id', remove);
+
+export default router;
 ```
 
 ---
 
 ## 8. 🚦 App & Serveur
 
-**app.js**
+### `app.js`
 
 ```js
-const express = require("express");
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
+import taskRoutes from './routes/task.routes.js';
+
+dotenv.config();
 const app = express();
-require("dotenv").config();
-const connectDB = require("./config/db");
-const taskRoutes = require("./routes/task.routes");
-
 connectDB();
-app.use(express.json());
-app.use("/tasks", taskRoutes);
 
-module.exports = app;
+app.use(express.json());
+app.use('/tasks', taskRoutes);
+
+export default app;
 ```
 
-**server.js**
+### `server.js`
 
 ```js
-const app = require("./app");
-const PORT = process.env.PORT || 5000;
+import app from './app.js';
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Serveur lancé sur le port ${PORT}`));
 ```
 
 ---
 
-## 🧪 Test API
+## 🧪 API – Points d’entrée
 
-| Endpoint     | Méthode | Action                   |
-| ------------ | ------- | ------------------------ |
-| `/tasks`     | GET     | Lister toutes les tâches |
-| `/tasks`     | POST    | Créer une tâche          |
-| `/tasks/:id` | PUT     | Modifier une tâche       |
-| `/tasks/:id` | DELETE  | Supprimer une tâche      |
+| Méthode | Endpoint      | Action                   |
+|---------|---------------|--------------------------|
+| GET     | `/tasks`      | Lister les tâches        |
+| POST    | `/tasks`      | Créer une tâche          |
+| PUT     | `/tasks/:id`  | Modifier une tâche       |
+| DELETE  | `/tasks/:id`  | Supprimer une tâche      |
 
 ---
 
-## 🔐 Suggestions d'amélioration
+## 🔐 Suggestions d’évolution
 
-- Ajouter l’authentification avec JWT
-- Créer des services pour utilisateurs
-- Ajouter des tests unitaires avec Jest
-- Structurer avec TypeScript pour robustesse
+- 🔐 Authentification avec JWT
+- ✅ Middleware de validation (Joi / Zod)
+- 🧪 Tests unitaires avec Jest / Supertest
+- 📘 Documentation Swagger
+- ⚔️ Rate Limiting / Helmet / Logger
 
 ---
