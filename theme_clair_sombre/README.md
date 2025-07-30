@@ -1,35 +1,63 @@
-# 🌗 Projet React – Thème Clair / Sombre
-
-Ce projet est une démonstration simple d'un système de **bascule entre thème clair et thème sombre** à l'aide de **React** et de l’outil de build **Vite**.
+# 🌗 React – Code du thème clair / sombre
 
 ---
 
-## 🧰 Technologies utilisées
+## 📄 `App.jsx`
 
-- [React](https://reactjs.org/) — pour créer l'interface utilisateur
-- [Vite](https://vitejs.dev/) — pour le bundling et le serveur de développement rapide
-- CSS classique — pour styliser les thèmes clair et sombre
+```jsx
+import { useState, useEffect } from "react";
+import "./index.css";
 
----
+function App() {
+  const [darkMode, setDarkMode] = useState(false);
 
-## ⚙️ Fonctionnalités
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
-- Bascule entre le **mode clair** et le **mode sombre** via un bouton.
-- Ajout dynamique de la classe CSS `dark` sur le `<body>` avec React.
-- Interface responsive, simple et accessible.
-- Code optimisé avec `useState` et `useEffect`.
+  return (
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <button onClick={() => setDarkMode(prev => !prev)}>
+        {darkMode ? "☀️ Mode clair" : "🌙 Mode sombre"}
+      </button>
+    </div>
+  );
+}
 
----
-
-## 📁 Structure du projet
-
-```bash
-theme_clair_sombre/
-├── public/               # fichiers statiques
-├── src/
-│   ├── App.jsx           # composant principal avec le bouton de thème
-│   ├── index.css         # styles globaux, incluant les styles pour le thème sombre
-│   └── main.jsx          # point d'entrée React
-├── package.json          # configuration npm
-└── vite.config.js        # configuration Vite
+export default App;
 ```
+
+---
+
+## 🎨 `index.css`
+
+```css
+/* Styles globaux */
+
+body {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+```
+
+---
+
+Tu peux copier ces deux fichiers dans ton projet React (`src/App.jsx` et `src/index.css`) pour avoir un fonctionnement complet du switch de thème clair / sombre.
