@@ -1,12 +1,35 @@
-# React + Vite
+# 🌗 Projet React – Thème Clair / Sombre
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet est une démonstration simple d'un système de **bascule entre thème clair et thème sombre** à l'aide de **React** et de l’outil de build **Vite**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Technologies utilisées
 
-## Expanding the ESLint configuration
+- [React](https://reactjs.org/) — pour créer l'interface utilisateur
+- [Vite](https://vitejs.dev/) — pour le bundling et le serveur de développement rapide
+- CSS classique — pour styliser les thèmes clair et sombre
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Fonctionnalités
+
+- Bascule entre le **mode clair** et le **mode sombre** via un bouton.
+- Ajout dynamique de la classe CSS `dark` sur le `<body>` avec React.
+- Interface responsive, simple et accessible.
+- Code optimisé avec `useState` et `useEffect`.
+
+---
+
+## 📁 Structure du projet
+
+```bash
+theme_clair_sombre/
+├── public/               # fichiers statiques
+├── src/
+│   ├── App.jsx           # composant principal avec le bouton de thème
+│   ├── index.css         # styles globaux, incluant les styles pour le thème sombre
+│   └── main.jsx          # point d'entrée React
+├── package.json          # configuration npm
+└── vite.config.js        # configuration Vite
+```
