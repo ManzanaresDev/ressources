@@ -53,4 +53,6 @@ Voici une sélection de **sites** et **ressources pédagogiques** pour apprendre
 
 ---
 
-> Tu veux des exercices pratiques spécifiques au débogage (avec code volontairement buggé) ? Je peux t’en proposer sur demande.
+# Chaines vidèo
+
+## [Microsoft Développeurs France](https://www.youtube.com/watch?v=AJrfNRddtgo)
