@@ -5,8 +5,7 @@
   "main": "maskify.js",
   "type": "module",
   "scripts": {
-    "test": "node --test ./test/maskify.test.js",
-    "dev": "node exercice.js"
+    "test": "node --test ./test/maskify.test.js"
   },
   "keywords": [],
   "author": "",

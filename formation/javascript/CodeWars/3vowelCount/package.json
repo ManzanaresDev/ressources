@@ -1,11 +1,11 @@
 {
-  "name": "pangram",
+  "name": "vowel-count",
   "version": "1.0.0",
   "description": "",
-  "main": "exercice.js",
+  "main": "",
   "type": "module",
   "scripts": {
-    "test": "node --test ./test/pangram.test.js"
+    "test": "node --test ./test/vowel-count.test.js"
   },
   "keywords": [],
   "author": "",

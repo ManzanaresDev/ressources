@@ -1,11 +1,11 @@
 {
-  "name": "pangram",
+  "name": "triobonacci",
   "version": "1.0.0",
   "description": "",
-  "main": "exercice.js",
+  "main": "tribonacci.js",
   "type": "module",
   "scripts": {
-    "test": "node --test ./test/pangram.test.js"
+    "test": "node --test ./test/tribonacci.test.js"
   },
   "keywords": [],
   "author": "",
