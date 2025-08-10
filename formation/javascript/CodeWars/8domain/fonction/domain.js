@@ -8,7 +8,7 @@ export function domain(url) {
   const prefix3 = /^http:\/\/www\./;
   const prefix4 = /^https:\/\/www\./;
   const prefix5 = /^www\./;
-
+  clear;
   let domain = "";
   let posPoint;
 
