@@ -3,11 +3,22 @@ import test from "node:test";
 import { multiplesOf3Or5 } from "../fonction/multiplesOf3Or5.js";
 import assert from "assert";
 
+/*-----  cas invalides -----*/
+test("fonction multiplesOf3Or5 renvoie une erreur pour les entrées invalides", () => {
+  const invalidCases = ["string", NaN, [], {}, () => {}, true];
+
+  for (const invalidCase of invalidCases) {
+    assert.throws(() => multiplesOf3Or5(invalidCase), {
+      message: "parameter type error",
+    });
+  }
+});
+
 /*-----  négatifs et cas limites -----*/
-test("La fonction multiplesOf3Or5 return 0", () => {
+test("La fonction multiplesOf3Or5 return 0 pour les entrées limites (negatif, 0, 1 et 2)", () => {
   const edgeCases = [-5, 0, 1, 2];
 
-  for (let edgeCase of edgeCases) {
+  for (const edgeCase of edgeCases) {
     assert.strictEqual(
       multiplesOf3Or5(edgeCase),
       0,
@@ -28,8 +39,8 @@ test("fonction multiplesOf3Or5 renvoie le bon résultat", () => {
     { name: "16 => 60", input: 16, expected: 60 },
     { name: "20 => 78", input: 20, expected: 78 },
   ];
-  
-  for (let { name, input, expected } of validCases) {
+
+  for (const { name, input, expected } of validCases) {
     assert.strictEqual(
       multiplesOf3Or5(input),
       expected,
@@ -37,8 +48,3 @@ test("fonction multiplesOf3Or5 renvoie le bon résultat", () => {
     );
   }
 });
-, 
-/*-----  cas invalides -----*/
-invalidCases = ["string", NaN, [], {}, () => {}, true];
-
-test("fonction multiplesOf3Or5 renvoie une erreur");
