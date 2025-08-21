@@ -56,3 +56,36 @@ Voici une sélection de **sites** et **ressources pédagogiques** pour apprendre
 # Chaines vidèo
 
 ## [Microsoft Développeurs France](https://www.youtube.com/watch?v=AJrfNRddtgo)
+
+---
+
+---
+
+---
+
+---
+
+---
+
+# 🖥️ Apprendre le débogage avec Visual Studio Code
+
+Voici une sélection de ressources pour apprendre à déboguer efficacement avec VS Code.
+
+---
+
+## 📘 Tutoriels officiels
+
+1. **Déboguer avec Visual Studio Code**  
+   Le guide officiel de Microsoft présente les fonctionnalités essentielles du débogage dans VS Code, y compris la configuration de `launch.json`, l'utilisation des points d'arrêt, et la gestion des variables pendant une session de débogage.  
+   👉 [Lire le tutoriel](https://code.visualstudio.com/docs/debugtest/debugging)
+
+2. **Débogage pour les débutants absolus**  
+   Bien que ce guide soit destiné à Visual Studio, il offre des principes fondamentaux du débogage applicables à VS Code : définition des points d'arrêt, inspection des variables, navigation dans le code.  
+   👉 [Lire le guide](https://learn.microsoft.com/fr-fr/visualstudio/debugger/debugging-absolute-beginners?view=vs-2022)
+
+---
+
+## 🎥 Vidéos tutoriels
+
+1. **VSCode : Le Guide Ultime pour Déboguer Votre Code** (français)  
+   Introduction complète au débogage avec VS Code, couvrant
