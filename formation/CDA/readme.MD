@@ -4,7 +4,7 @@
 
 ## ✅ Semaines 1 à 8 : Bases (Java, SQL, Web, Git)
 
-- [x] **S1 : Installation outils (IDE, Git, Docker, DB), découverte Java**
+- [ ] **S1 : Installation outils (IDE, Git, Docker, DB), découverte Java**
 
   - [Java Basics (YouTube)](https://www.youtube.com/watch?v=GoXwIVyNvX0)
   - [Git Book](https://git-scm.com/book/fr/v2)
