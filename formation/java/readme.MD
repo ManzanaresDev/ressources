@@ -1,16 +1,20 @@
 # Maven en Java
 
-Maven est un **outil de build** (construction de projet) qui simplifie la gestion et l’automatisation du développement en Java.  
+Maven est un **outil de build** (construction de projet) qui simplifie la gestion et l’automatisation du développement en Java.
+Maven permet de **gérer les dépendances, structurer ton projet et automatiser ton cycle de développement** en Java.
 
 ---
 
 ## 🔹 Ce que fait Maven
-1. **Gestion des dépendances**  
-   - Déclare les bibliothèques nécessaires dans un fichier unique (`pom.xml`).  
-   - Télécharge automatiquement les JAR depuis Maven Central.  
 
-2. **Standardisation du projet**  
-   - Structure commune et claire :  
+1. **Gestion des dépendances**
+
+   - Déclare les bibliothèques nécessaires dans un fichier unique (`pom.xml`).
+   - Télécharge automatiquement les JAR depuis Maven Central.
+
+2. **Standardisation du projet**
+
+   - Structure commune et claire :
      ```
      mon-projet/
        ├─ src/
@@ -20,34 +24,38 @@ Maven est un **outil de build** (construction de projet) qui simplifie la gestio
        └─ pom.xml             (fichier de configuration Maven)
      ```
 
-3. **Automatisation des tâches**  
-   - Compilation : `mvn compile`  
-   - Tests : `mvn test`  
-   - Création du JAR/WAR : `mvn package`  
-   - Nettoyage : `mvn clean`  
-   - Déploiement local : `mvn install`  
+3. **Automatisation des tâches**
 
-4. **Extensibilité**  
-   - Plugins disponibles pour tests, documentation, qualité de code, etc.  
+   - Compilation : `mvn compile`
+   - Tests : `mvn test`
+   - Création du JAR/WAR : `mvn package`
+   - Nettoyage : `mvn clean`
+   - Déploiement local : `mvn install`
+
+4. **Extensibilité**
+   - Plugins disponibles pour tests, documentation, qualité de code, etc.
 
 ---
 
 ## 🔹 Comment s’y prendre (premiers pas)
 
 ### 1. Installer Maven
-- Télécharger [Apache Maven](https://maven.apache.org/download.cgi).  
-- Configurer la variable d’environnement `MAVEN_HOME` et ajouter `bin` dans ton `PATH`.  
-- Vérifier l’installation :  
+
+- Télécharger [Apache Maven](https://maven.apache.org/download.cgi).
+- Configurer la variable d’environnement `MAVEN_HOME` et ajouter `bin` dans ton `PATH`.
+- Vérifier l’installation :
   ```bash
   mvn -v
   ```
 
 ### 2. Créer un projet Maven
+
 ```bash
 mvn archetype:generate   -DgroupId=com.example   -DartifactId=mon-projet   -DarchetypeArtifactId=maven-archetype-quickstart   -DinteractiveMode=false
 ```
 
 ### 3. Exemple de `pom.xml`
+
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -78,7 +86,9 @@ mvn archetype:generate   -DgroupId=com.example   -DartifactId=mon-projet   -Darc
 ## 🔹 Exemple concret
 
 ### Classe Java
+
 Fichier : `src/main/java/com/example/App.java`
+
 ```java
 package com.example;
 
@@ -95,7 +105,9 @@ public class App {
 ```
 
 ### Test JUnit
+
 Fichier : `src/test/java/com/example/AppTest.java`
+
 ```java
 package com.example;
 
@@ -115,24 +127,110 @@ public class AppTest {
 
 ## 🔹 Lancer des commandes Maven
 
-- Compiler :  
+- Compiler :
   ```bash
   mvn compile
   ```
-- Exécuter les tests :  
+- Exécuter les tests :
   ```bash
   mvn test
   ```
-- Créer un JAR :  
+- Créer un JAR :
   ```bash
   mvn package
   ```
-- Nettoyer le projet :  
+- Nettoyer le projet :
   ```bash
   mvn clean
   ```
 
 ---
 
-## ✅ En résumé
-Maven permet de **gérer les dépendances, structurer ton projet et automatiser ton cycle de développement** en Java.
+# Manuel Maven : Dépendances & Plugin Maven Helper
+
+## 1. Installation de dépendances Maven
+
+### Étape 1 : Ajouter une dépendance
+
+Dans ton `pom.xml`, ajoute tes dépendances dans la section `<dependencies> ... </dependencies>`.
+
+Exemple avec **JUnit** (tests unitaires) :
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.10.2</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+### Étape 2 : Télécharger les dépendances
+
+En ligne de commande :
+
+```bash
+mvn clean install
+```
+
+Dans **IntelliJ** → clic droit sur le projet → `Maven` → `Reload Project`.
+
+👉 Maven télécharge automatiquement la librairie depuis le **Maven Central Repository**.
+
+### Étape 3 : Vérifier l’installation
+
+- En CLI : les libs se trouvent dans `~/.m2/repository/`
+- Dans IntelliJ : onglet **Maven** (à droite) → `Dependencies`.
+
+---
+
+## 2. Installation du plugin Maven Helper (IntelliJ IDEA)
+
+Le plugin **Maven Helper** est utile pour :
+
+- Visualiser l’arbre des dépendances
+- Détecter les conflits de versions
+- Exclure une dépendance en double
+
+### Étape 1 : Installer Maven Helper
+
+1. Ouvre **IntelliJ IDEA**
+2. Menu `File` → `Settings` → `Plugins`
+3. Onglet **Marketplace**
+4. Recherche **Maven Helper**
+5. Clique **Install** et redémarre IntelliJ
+
+### Étape 2 : Utiliser Maven Helper
+
+1. Ouvre ton `pom.xml`
+2. Un onglet **Dependency Analyzer** apparaît en bas
+3. Tu pourras :
+   - Voir l’arbre des dépendances
+   - Identifier des conflits
+   - Exclure des dépendances
+
+---
+
+## Exemple pratique : exclure une dépendance
+
+Si deux versions d’une librairie rentrent en conflit :
+
+```xml
+<dependency>
+    <groupId>org.example</groupId>
+    <artifactId>ma-lib</artifactId>
+    <version>1.2.3</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.example</groupId>
+            <artifactId>ancienne-lib</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+---
+
+✅ Tu peux maintenant gérer tes dépendances et analyser ton projet facilement avec Maven !
