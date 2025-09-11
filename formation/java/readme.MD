@@ -1,3 +1,7 @@
+# JAVA
+
+[🎥 Regarder la vidéo sur YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
 # Maven en Java
 
 Maven est un **outil de build** (construction de projet) qui simplifie la gestion et l’automatisation du développement en Java.
