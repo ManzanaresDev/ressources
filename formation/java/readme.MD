@@ -4,6 +4,8 @@
 
 # Maven en Java
 
+![Maven](maven.jpg)
+
 Maven est un **outil de build** (construction de projet) qui simplifie la gestion et l’automatisation du développement en Java.
 Maven permet de **gérer les dépendances, structurer ton projet et automatiser ton cycle de développement** en Java.
 
@@ -237,4 +239,76 @@ Si deux versions d’une librairie rentrent en conflit :
 
 ---
 
-✅ Tu peux maintenant gérer tes dépendances et analyser ton projet facilement avec Maven !
+# Tests in JAVA avec JUnit5
+
+## @BeforeAll
+
+- Exécuté **une seule fois avant tous les tests** de la classe.
+- Utilisé pour initialiser des ressources lourdes (connexion à une base de données, serveur de test, etc.).
+- Doit être **static**, sauf si on utilise `@TestInstance(Lifecycle.PER_CLASS)`.
+
+## @BeforeEach
+
+- Exécuté **avant chaque test individuel**.
+- Sert à réinitialiser l’état (objets, variables, configuration).
+
+---
+
+## Exemple
+
+```java
+import org.junit.jupiter.api.*;
+
+public class ExempleTest {
+
+    @BeforeAll
+    static void initAll() {
+        System.out.println("Avant TOUS les tests (1 seule fois)");
+    }
+
+    @BeforeEach
+    void init() {
+        System.out.println("Avant CHAQUE test");
+    }
+
+    @Test
+    void test1() {
+        System.out.println("Test 1");
+    }
+
+    @Test
+    void test2() {
+        System.out.println("Test 2");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("Après CHAQUE test");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        System.out.println("Après TOUS les tests (1 seule fois)");
+    }
+}
+```
+
+### Sortie possible :
+
+```
+Avant TOUS les tests (1 seule fois)
+Avant CHAQUE test
+Test 1
+Après CHAQUE test
+Avant CHAQUE test
+Test 2
+Après CHAQUE test
+Après TOUS les tests (1 seule fois)
+```
+
+---
+
+## Résumé
+
+- `@BeforeAll` = une seule fois, au début.
+- `@BeforeEach` = avant chaque méthode de test.
