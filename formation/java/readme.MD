@@ -110,205 +110,97 @@ public class App {
 }
 ```
 
-### Test JUnit
+# Réaliser un test unitaire Java avec JUnit 5
 
-Fichier : `src/test/java/com/example/AppTest.java`
+## ⚙️ Pré-requis
+
+1. **Ajouter la dépendance JUnit 5** :
+
+- Avec **Maven** (`pom.xml`) :
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.2</version>
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+```
+
+- Avec **Gradle** :
+
+```gradle
+testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+```
+
+2. Vérifier que ton IDE (IntelliJ, Eclipse, VS Code) sait exécuter des tests JUnit.
+
+---
+
+## 🧪 Exemple simple
+
+### Classe à tester
 
 ```java
-package com.example;
+public class Calculatrice {
+    public int addition(int a, int b) {
+        return a + b;
+    }
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-
-public class AppTest {
-    @Test
-    public void testSayHello() {
-        App app = new App();
-        assertEquals("Hello, Maven!", app.sayHello());
+    public int division(int a, int b) {
+        if (b == 0) throw new IllegalArgumentException("Division par zéro !");
+        return a / b;
     }
 }
 ```
 
----
-
-## 🔹 Lancer des commandes Maven
-
-- Compiler :
-  ```bash
-  mvn compile
-  ```
-- Exécuter les tests :
-  ```bash
-  mvn test
-  ```
-- Créer un JAR :
-  ```bash
-  mvn package
-  ```
-- Nettoyer le projet :
-  ```bash
-  mvn clean
-  ```
-
----
-
-# Manuel Maven : Dépendances & Plugin Maven Helper
-
-## 1. Installation de dépendances Maven
-
-### Étape 1 : Ajouter une dépendance
-
-Dans ton `pom.xml`, ajoute tes dépendances dans la section `<dependencies> ... </dependencies>`.
-
-Exemple avec **JUnit** (tests unitaires) :
-
-```xml
-<dependencies>
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.10.2</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-```
-
-### Étape 2 : Télécharger les dépendances
-
-En ligne de commande :
-
-```bash
-mvn clean install
-```
-
-Dans **IntelliJ** → clic droit sur le projet → `Maven` → `Reload Project`.
-
-👉 Maven télécharge automatiquement la librairie depuis le **Maven Central Repository**.
-
-### Étape 3 : Vérifier l’installation
-
-- En CLI : les libs se trouvent dans `~/.m2/repository/`
-- Dans IntelliJ : onglet **Maven** (à droite) → `Dependencies`.
-
----
-
-## 2. Installation du plugin Maven Helper (IntelliJ IDEA)
-
-Le plugin **Maven Helper** est utile pour :
-
-- Visualiser l’arbre des dépendances
-- Détecter les conflits de versions
-- Exclure une dépendance en double
-
-### Étape 1 : Installer Maven Helper
-
-1. Ouvre **IntelliJ IDEA**
-2. Menu `File` → `Settings` → `Plugins`
-3. Onglet **Marketplace**
-4. Recherche **Maven Helper**
-5. Clique **Install** et redémarre IntelliJ
-
-### Étape 2 : Utiliser Maven Helper
-
-1. Ouvre ton `pom.xml`
-2. Un onglet **Dependency Analyzer** apparaît en bas
-3. Tu pourras :
-   - Voir l’arbre des dépendances
-   - Identifier des conflits
-   - Exclure des dépendances
-
----
-
-## Exemple pratique : exclure une dépendance
-
-Si deux versions d’une librairie rentrent en conflit :
-
-```xml
-<dependency>
-    <groupId>org.example</groupId>
-    <artifactId>ma-lib</artifactId>
-    <version>1.2.3</version>
-    <exclusions>
-        <exclusion>
-            <groupId>org.example</groupId>
-            <artifactId>ancienne-lib</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-```
-
----
-
-# Tests in JAVA avec JUnit5
-
-## @BeforeAll
-
-- Exécuté **une seule fois avant tous les tests** de la classe.
-- Utilisé pour initialiser des ressources lourdes (connexion à une base de données, serveur de test, etc.).
-- Doit être **static**, sauf si on utilise `@TestInstance(Lifecycle.PER_CLASS)`.
-
-## @BeforeEach
-
-- Exécuté **avant chaque test individuel**.
-- Sert à réinitialiser l’état (objets, variables, configuration).
-
----
-
-## Exemple
+### Classe de test (JUnit 5)
 
 ```java
 import org.junit.jupiter.api.*;
 
-public class ExempleTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    @BeforeAll
-    static void initAll() {
-        System.out.println("Avant TOUS les tests (1 seule fois)");
-    }
+class CalculatriceTest {
+
+    private Calculatrice calc;
 
     @BeforeEach
-    void init() {
-        System.out.println("Avant CHAQUE test");
+    void setUp() {
+        calc = new Calculatrice();
     }
 
     @Test
-    void test1() {
-        System.out.println("Test 1");
+    void testAddition() {
+        int resultat = calc.addition(2, 3);
+        assertEquals(5, resultat, "2 + 3 doit être égal à 5");
     }
 
     @Test
-    void test2() {
-        System.out.println("Test 2");
+    void testDivision() {
+        int resultat = calc.division(10, 2);
+        assertEquals(5, resultat);
     }
 
-    @AfterEach
-    void tearDown() {
-        System.out.println("Après CHAQUE test");
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-        System.out.println("Après TOUS les tests (1 seule fois)");
+    @Test
+    void testDivisionParZero() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calc.division(10, 0);
+        });
+        assertEquals("Division par zéro !", exception.getMessage());
     }
 }
 ```
 
-### Sortie possible :
-
-```
-Avant TOUS les tests (1 seule fois)
-Avant CHAQUE test
-Test 1
-Après CHAQUE test
-Avant CHAQUE test
-Test 2
-Après CHAQUE test
-Après TOUS les tests (1 seule fois)
-```
-
 ---
 
-## Résumé
+## 🚀 Explications
 
-- `@BeforeAll` = une seule fois, au début.
-- `@BeforeEach` = avant chaque méthode de test.
+- `@BeforeEach` → exécuté avant chaque test (instancie `Calculatrice` neuve).
+- `@Test` → indique qu’une méthode est un test.
+- `assertEquals(expected, actual)` → vérifie que la valeur attendue = valeur calculée.
+- `assertThrows` → vérifie qu’une exception spécifique est bien levée.
+
+---
