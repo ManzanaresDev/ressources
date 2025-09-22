@@ -204,3 +204,42 @@ class CalculatriceTest {
 - `assertThrows` → vérifie qu’une exception spécifique est bien levée.
 
 ---
+
+# Principes FIRST pour des tests logiciels de qualité
+
+Les principes **FIRST** résument les qualités attendues pour écrire des tests unitaires efficaces :
+
+## 🧩 FIRST
+
+1. **Fast (Rapides)**
+
+   - Les tests doivent s’exécuter vite pour pouvoir être lancés souvent (idéalement à chaque sauvegarde ou commit).
+   - Des tests lents découragent les développeurs de les exécuter.
+
+2. **Independent (Indépendants)**
+
+   - Chaque test doit pouvoir s’exécuter seul, dans n’importe quel ordre.
+   - Pas de dépendance entre tests ni de partage d’état caché (ex. base de données non réinitialisée).
+
+3. **Repeatable (Répétables)**
+
+   - Un test doit donner le même résultat quel que soit l’environnement (machine locale, CI/CD, serveur).
+   - Éviter les dépendances externes non contrôlées (réseau, API tierces, date/heure système sans mock, etc.).
+
+4. **Self-Validating (Auto-validants)**
+
+   - Un test doit dire clairement s’il passe ou échoue, sans nécessiter d’inspection humaine.
+   - Pas de logs à analyser à la main pour conclure.
+
+5. **Timely (Opportuns)**
+   - Les tests doivent être écrits **au bon moment**, idéalement avant ou pendant le développement de la fonctionnalité (TDD/BDD).
+   - Écrire les tests après coup conduit souvent à des tests superficiels ou incomplets.
+
+---
+
+## ⚖️ Autres principes utiles
+
+- **Lisibilité > complexité** : un test doit être simple à comprendre, presque comme une documentation exécutable.
+- **Isolation** : mocker ou stubber les dépendances pour cibler une seule unité de code.
+- **Nommage clair** : un bon nom de test décrit _ce qui est testé_ et _le résultat attendu_.
+- **Maintenance** : des tests bien structurés (Arrange-Act-Assert) se maintiennent plus facilement.
