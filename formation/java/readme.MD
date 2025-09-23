@@ -243,3 +243,65 @@ Les principes **FIRST** résument les qualités attendues pour écrire des tests
 - **Isolation** : mocker ou stubber les dépendances pour cibler une seule unité de code.
 - **Nommage clair** : un bon nom de test décrit _ce qui est testé_ et _le résultat attendu_.
 - **Maintenance** : des tests bien structurés (Arrange-Act-Assert) se maintiennent plus facilement.
+
+# Exemple : Calculatrice avec exception personnalisée et tests (JUnit 5 + AssertJ)
+
+## 1. Exception personnalisée
+
+```java
+public class DivisionParZeroException extends RuntimeException {
+    public DivisionParZeroException(String message) {
+        super(message);
+    }
+}
+```
+
+---
+
+## 2. Classe `Calculatrice`
+
+```java
+public class Calculatrice {
+
+    public int division(int a, int b) {
+        if (b == 0) {
+            throw new DivisionParZeroException("Division par zéro interdite");
+        }
+        return a / b;
+    }
+}
+```
+
+---
+
+## 3. Test avec JUnit 5 + AssertJ
+
+```java
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
+class CalculatriceTest {
+
+    private final Calculatrice calc = new Calculatrice();
+
+    @Test
+    void divisionParZeroDoitLancerDivisionParZeroException() {
+        assertThatExceptionOfType(DivisionParZeroException.class)
+            .isThrownBy(() -> calc.division(10, 0))
+            .withMessage("Division par zéro interdite")
+            .withNoCause();
+    }
+}
+```
+
+---
+
+## ✅ Résumé
+
+- Création d’une exception personnalisée : `DivisionParZeroException`
+- La méthode `division` la lève si le dénominateur est `0`
+- Le test avec **JUnit 5 + AssertJ** vérifie :
+  - Que l’exception est levée
+  - Que le message est correct
+  - Qu’il n’y a pas de cause
